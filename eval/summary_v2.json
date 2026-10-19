@@ -1,0 +1,13 @@
+{
+  "version": "v2",
+  "questions": 42,
+  "data_questions": 34,
+  "data_execution_success": 1.0,
+  "data_exact_match": 0.8529,
+  "data_near_match": 0.8529,
+  "knowledge_accuracy": 0.875,
+  "avg_latency_ms": 1304.2,
+  "total_prompt_tokens": 63944,
+  "total_completion_tokens": 4124,
+  "errors": 0
+}

@@ -1,0 +1,12 @@
+{
+  "data_rows": "1,500 万+",
+  "metric_count": "13",
+  "eval_questions": "42",
+  "sql_accuracy": "85.3%",
+  "knowledge_accuracy": "87.5%",
+  "guardrail_rate": "100%",
+  "report_generation_time": "< 1 分钟",
+  "scorecard_auc": "0.726",
+  "scorecard_ks": "0.335",
+  "insight_count": "5"
+}

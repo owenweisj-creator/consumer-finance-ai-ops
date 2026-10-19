@@ -1,0 +1,28 @@
+.env
+.venv/
+tools/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local data (large, reproducible from scripts/download_data.py)
+data/raw/
+data/processed/
+*.parquet
+*.duckdb
+*.duckdb.wal
+
+# Private personal material (never publish to a public repo)
+private/
+assets/photo.jpg
+outputs/resume/*.docx
+outputs/resume/*.pdf
+
+# Runtime
+logs/
+tmp/
+.DS_Store
+Thumbs.db
+

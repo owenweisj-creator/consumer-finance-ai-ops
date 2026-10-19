@@ -1,0 +1,201 @@
+{
+  "application": {
+    "rows": 307511,
+    "bad_rate": 0.0807,
+    "min_credit": 45000.0,
+    "max_credit": 4050000.0
+  },
+  "previous": {
+    "min_date": "2018-09-30 00:00:00",
+    "max_date": "2026-09-29 00:00:00",
+    "rows": 1670214,
+    "customers": 338857
+  },
+  "monthly": [
+    {
+      "year_month": "2026-09",
+      "applications": 36012.0,
+      "approved": 8245.0,
+      "used": 8070.0,
+      "approval_rate": 0.229,
+      "utilization_rate": 0.9788,
+      "approved_amount": 1886809520.79
+    },
+    {
+      "year_month": "2026-08",
+      "applications": 28537.0,
+      "approved": 8394.0,
+      "used": 7975.0,
+      "approval_rate": 0.2941,
+      "utilization_rate": 0.9501,
+      "approved_amount": 1428686359.61
+    },
+    {
+      "year_month": "2026-07",
+      "applications": 24967.0,
+      "approved": 9148.0,
+      "used": 8598.0,
+      "approval_rate": 0.3664,
+      "utilization_rate": 0.9399,
+      "approved_amount": 1611155224.98
+    },
+    {
+      "year_month": "2026-06",
+      "applications": 34640.0,
+      "approved": 11359.0,
+      "used": 10738.0,
+      "approval_rate": 0.3279,
+      "utilization_rate": 0.9453,
+      "approved_amount": 2307428486.32
+    },
+    {
+      "year_month": "2026-05",
+      "applications": 44347.0,
+      "approved": 13846.0,
+      "used": 13223.0,
+      "approval_rate": 0.3122,
+      "utilization_rate": 0.955,
+      "approved_amount": 2882008338.89
+    },
+    {
+      "year_month": "2026-04",
+      "applications": 52772.0,
+      "approved": 16487.0,
+      "used": 15880.0,
+      "approval_rate": 0.3124,
+      "utilization_rate": 0.9632,
+      "approved_amount": 3586188943.26
+    },
+    {
+      "year_month": "2026-03",
+      "applications": 61814.0,
+      "approved": 19290.0,
+      "used": 18680.0,
+      "approval_rate": 0.3121,
+      "utilization_rate": 0.9684,
+      "approved_amount": 4636700354.84
+    },
+    {
+      "year_month": "2026-02",
+      "applications": 56183.0,
+      "approved": 18918.0,
+      "used": 18393.0,
+      "approval_rate": 0.3367,
+      "utilization_rate": 0.9722,
+      "approved_amount": 4458533800.14
+    },
+    {
+      "year_month": "2026-01",
+      "applications": 62997.0,
+      "approved": 22760.0,
+      "used": 22168.0,
+      "approval_rate": 0.3613,
+      "utilization_rate": 0.974,
+      "approved_amount": 5377460373.76
+    },
+    {
+      "year_month": "2025-12",
+      "applications": 60101.0,
+      "approved": 23283.0,
+      "used": 22709.0,
+      "approval_rate": 0.3874,
+      "utilization_rate": 0.9753,
+      "approved_amount": 5388820803.36
+    },
+    {
+      "year_month": "2025-11",
+      "applications": 54749.0,
+      "approved": 22609.0,
+      "used": 22071.0,
+      "approval_rate": 0.413,
+      "utilization_rate": 0.9762,
+      "approved_amount": 5231512674.5
+    },
+    {
+      "year_month": "2025-10",
+      "applications": 54766.0,
+      "approved": 24579.0,
+      "used": 23980.0,
+      "approval_rate": 0.4488,
+      "utilization_rate": 0.9756,
+      "approved_amount": 5714572125.11
+    },
+    {
+      "year_month": "2025-09",
+      "applications": 47294.0,
+      "approved": 22122.0,
+      "used": 21597.0,
+      "approval_rate": 0.4678,
+      "utilization_rate": 0.9763,
+      "approved_amount": 5507984426.22
+    },
+    {
+      "year_month": "2025-08",
+      "applications": 42929.0,
+      "approved": 21785.0,
+      "used": 21296.0,
+      "approval_rate": 0.5075,
+      "utilization_rate": 0.9776,
+      "approved_amount": 5345118679.68
+    },
+    {
+      "year_month": "2025-07",
+      "applications": 39749.0,
+      "approved": 22028.0,
+      "used": 21462.0,
+      "approval_rate": 0.5542,
+      "utilization_rate": 0.9743,
+      "approved_amount": 5617768990.23
+    },
+    {
+      "year_month": "2025-06",
+      "applications": 35645.0,
+      "approved": 21579.0,
+      "used": 21083.0,
+      "approval_rate": 0.6054,
+      "utilization_rate": 0.977,
+      "approved_amount": 5715946591.92
+    },
+    {
+      "year_month": "2025-05",
+      "applications": 34973.0,
+      "approved": 22460.0,
+      "used": 21924.0,
+      "approval_rate": 0.6422,
+      "utilization_rate": 0.9761,
+      "approved_amount": 6161911197.84
+    },
+    {
+      "year_month": "2025-04",
+      "applications": 31226.0,
+      "approved": 21711.0,
+      "used": 21215.0,
+      "approval_rate": 0.6953,
+      "utilization_rate": 0.9772,
+      "approved_amount": 5998961373.12
+    }
+  ],
+  "status": [
+    {
+      "status": "Approved",
+      "count": 1036781
+    },
+    {
+      "status": "Canceled",
+      "count": 316319
+    },
+    {
+      "status": "Refused",
+      "count": 290678
+    },
+    {
+      "status": "Unused offer",
+      "count": 26436
+    }
+  ],
+  "installments": {
+    "rows": 0,
+    "min_due": "NaT",
+    "max_due": "NaT"
+  }
+}

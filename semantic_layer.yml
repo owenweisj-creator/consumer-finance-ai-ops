@@ -1,0 +1,136 @@
+name: consumer_finance_ops
+description: 消费金融经营分析语义层。所有 NL2SQL 查询必须基于这里的视图和指标口径。
+anchor_date: "2026-09-30"
+
+views:
+  v_kpi_monthly:
+    description: 月度经营总览，按月汇总进件、审批、用信、金额、件均、期限与定价档位。
+    columns: [month_start, year_month, applications, approved, used, refused, unused_offer, approval_rate, utilization_rate, approved_amount, avg_ticket, avg_term_months, avg_interest_rate_primary]
+    grain: 每月一行
+  v_funnel_monthly:
+    description: 月度审批漏斗，可按合同类型、渠道、产品类型拆分。
+    columns: [month_start, year_month, contract_type, channel_type, product_type, applications, approved, used, refused, canceled, unused_offer, approval_rate, utilization_rate, approved_amount, avg_ticket, avg_term_months, avg_interest_rate_primary]
+    grain: 每月 × 合同类型 × 渠道 × 产品类型
+  v_portfolio_current:
+    description: 当前在贷组合，按合同类型、地区评级、年龄带、收入带拆分风险与敞口。
+    columns: [contract_type, region_rating, age_band, income_band, customers, bad_rate, exposure, avg_credit, avg_annuity, avg_credit_income_ratio, avg_ext_source]
+    grain: 合同类型 × 地区评级 × 年龄带 × 收入带
+  v_vintage:
+    description: 放款 cohort 的账龄迁徙，mob 为账龄月数，dpd30_rate 等为 cohort 内逾期率。
+    columns: [cohort_month, cohort, mob, loans, dpd30_rate, dpd60_rate, dpd90_rate, cum_dpd30_rate, cum_dpd60_rate, cum_dpd90_rate, avg_max_late_days]
+    grain: cohort 月 × 账龄月
+  v_product_monthly:
+    description: 产品维度月度进件与审批表现。
+    columns: [year_month, contract_type, product_type, applications, approved, approval_rate, approved_amount, avg_ticket]
+    grain: 月 × 合同类型 × 产品类型
+  v_channel_monthly:
+    description: 渠道维度月度进件与审批表现。
+    columns: [year_month, channel_type, applications, approved, approval_rate, approved_amount, avg_ticket]
+    grain: 月 × 渠道
+  v_region_monthly:
+    description: 地区评级维度的当前组合风险与敞口。
+    columns: [region_rating, customers, bad_rate, exposure, avg_credit, avg_ext_source]
+    grain: 地区评级
+  v_channel_rate_change:
+    description: 最新月与上月的渠道审批通过率变化分解，区分结构效应与比率效应。
+    columns: [channel_type, weight_previous, weight_current, previous_rate, current_rate, mix_effect, rate_effect, total_effect]
+    grain: 渠道
+
+metrics:
+  - name: 进件量
+    synonyms: [申请量, 申请笔数, 进件数, 申请数]
+    view: v_kpi_monthly
+    expr: applications
+    definition: 统计期内提交的申请笔数，包含通过、拒绝、取消和未使用额度。
+  - name: 审批通过量
+    synonyms: [通过量, 审批通过笔数]
+    view: v_kpi_monthly
+    expr: approved
+    definition: 审批结果为 Approved 或 Unused offer 的申请笔数。
+  - name: 实际用信量
+    synonyms: [用信量, 放款笔数]
+    view: v_kpi_monthly
+    expr: used
+    definition: 审批结果为 Approved 且实际用信的合同笔数。
+  - name: 审批通过率
+    synonyms: [通过率, 审批率]
+    view: v_kpi_monthly
+    expr: approval_rate
+    definition: 审批通过量 / 进件量。通过包含 Approved 与 Unused offer。
+  - name: 用信率
+    synonyms: [提款率, 额度使用率, 放款转化率]
+    view: v_kpi_monthly
+    expr: utilization_rate
+    definition: 实际用信量 / 审批通过量。
+  - name: 审批金额
+    synonyms: [放款额, 审批放款金额, 合同金额]
+    view: v_kpi_monthly
+    expr: approved_amount
+    definition: 审批通过合同的 AMT_CREDIT 合计，单位按数据源归一化为万元。
+  - name: 件均金额
+    synonyms: [件均, 平均合同金额, 客单价]
+    view: v_kpi_monthly
+    expr: avg_ticket
+    definition: 审批金额 / 实际用信量。
+  - name: 平均期限
+    synonyms: [平均账期, 期限]
+    view: v_kpi_monthly
+    expr: avg_term_months
+    definition: 审批通过合同的 CNT_PAYMENT 加权平均。
+  - name: 不良率
+    synonyms: [坏账率, 逾期率, default rate, bad rate]
+    view: v_portfolio_current
+    expr: bad_rate
+    definition: TARGET=1 的客户占比；TARGET 表示 30+ 天逾期标签，不等同于核销率。
+  - name: DPD30
+    synonyms: [30天逾期率, dpd30_rate]
+    view: v_vintage
+    expr: cum_dpd30_rate
+    definition: 截至该账龄月，曾经出现最大逾期天数 >= 30 的贷款占比（累计口径）。
+  - name: 复贷率
+    synonyms: [复借率, repeat rate]
+    view: v_funnel_monthly
+    expr: null
+    definition: 历史申请笔数 >= 2 的客户数 / 有历史申请的客户数；需在客户粒度计算。
+  - name: 结构效应
+    synonyms: [mix effect, 结构变化]
+    view: v_channel_rate_change
+    expr: mix_effect
+    definition: 渠道占比变化乘以基期渠道通过率与整体通过率之差，衡量渠道组合变化对整体通过率的影响。
+  - name: 比率效应
+    synonyms: [rate effect, 渠道自身变化]
+    view: v_channel_rate_change
+    expr: rate_effect
+    definition: 当期渠道占比乘以渠道通过率变化，衡量同一渠道自身审批通过率变化的影响。
+
+dimensions:
+  - name: 月份
+    column: year_month
+    description: 业务月份，格式 YYYY-MM。
+  - name: 合同类型
+    column: contract_type
+    description: Cash loans 或 Revolving loans。
+  - name: 渠道
+    column: channel_type
+    description: 客户获取渠道。
+  - name: 产品类型
+    column: product_type
+    description: X-Sell 或 Walk-in。
+  - name: 地区评级
+    column: region_rating
+    description: 客户所在地区评级，1 为最好，3 为最差。
+  - name: 年龄带
+    column: age_band
+    description: 18-24、25-34、35-44、45-54、55+。
+  - name: 收入带
+    column: income_band
+    description: 收入分箱。
+
+rules:
+  - 仅允许 SELECT 查询，禁止 INSERT/UPDATE/DELETE/CREATE/DROP/ALTER。
+  - 查询必须使用 views 中列出的视图，不得直接访问 raw schema。
+  - 比率指标不要对分母不同的行直接求平均，应按分子/分母重新汇总。
+  - 未指定时间范围时，默认返回最近 12 个月。
+  - 金额单位统一为万元（归一化），不要解释为人民币真实金额。
+  - 不得输出客户级敏感信息；如需明细，最多返回 200 行。
+

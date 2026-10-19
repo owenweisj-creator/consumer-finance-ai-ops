@@ -1,0 +1,79 @@
+{
+  "source": "Home Credit public dataset via Hugging Face (minhSpaceX/home_credit)",
+  "anchor_date": "2026-09-30",
+  "row_counts": {
+    "application_train": 307511,
+    "previous_application": 1670214,
+    "installments_payments": 13605401,
+    "pos_cash_balance": 0,
+    "credit_card_balance": 0,
+    "bureau": 0,
+    "bureau_balance": 0
+  },
+  "table_checks": [
+    {
+      "table": "raw.application_train",
+      "rows": 307511,
+      "columns": 122
+    },
+    {
+      "table": "raw.previous_application",
+      "rows": 1670214,
+      "columns": 37
+    },
+    {
+      "table": "raw.installments_payments",
+      "rows": 13605401,
+      "columns": 8
+    },
+    {
+      "table": "raw.pos_cash_balance",
+      "rows": 0,
+      "columns": 8
+    },
+    {
+      "table": "raw.credit_card_balance",
+      "rows": 0,
+      "columns": 11
+    },
+    {
+      "table": "raw.bureau",
+      "rows": 0,
+      "columns": 11
+    },
+    {
+      "table": "raw.bureau_balance",
+      "rows": 0,
+      "columns": 3
+    }
+  ],
+  "duplicate_keys": {
+    "raw.application_train:SK_ID_CURR": 0,
+    "raw.previous_application:SK_ID_PREV": 0,
+    "raw.installments_payments:SK_ID_PREV,NUM_INSTALMENT_NUMBER": 743407
+  },
+  "null_rates": {
+    "raw.application_train:AMT_CREDIT": 0.0,
+    "raw.application_train:AMT_ANNUITY": 0.0,
+    "raw.previous_application:NAME_CONTRACT_STATUS": 0.0,
+    "raw.installments_payments:DAYS_ENTRY_PAYMENT": 0.0002
+  },
+  "previous_application_status": [
+    {
+      "status": "Approved",
+      "count": 1036781
+    },
+    {
+      "status": "Canceled",
+      "count": 316319
+    },
+    {
+      "status": "Refused",
+      "count": 290678
+    },
+    {
+      "status": "Unused offer",
+      "count": 26436
+    }
+  ]
+}

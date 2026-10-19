@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>消费金融经营分析 AI Copilot</title>
+  <script src="assets/echarts.min.js"></script>
+  <style>
+    :root {
+      --navy: #173B57;
+      --teal: #0E7C86;
+      --teal-soft: #E6F3F4;
+      --orange: #D97706;
+      --red: #B42318;
+      --bg: #F4F6F8;
+      --card: #FFFFFF;
+      --text: #1F2937;
+      --muted: #6B7280;
+      --line: #E5E7EB;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 220px; background: var(--navy); color: #fff; padding: 26px 18px;
+      position: sticky; top: 0; height: 100vh;
+    }
+    .brand { font-size: 17px; font-weight: 700; line-height: 1.35; }
+    .brand small { display: block; color: #A8C4D6; font-weight: 400; margin-top: 8px; font-size: 11px; }
+    .nav { margin-top: 34px; display: grid; gap: 6px; }
+    .nav a {
+      color: #C9DCE8; text-decoration: none; font-size: 13px; padding: 10px 12px;
+      border-radius: 7px; transition: .2s;
+    }
+    .nav a:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .main { flex: 1; padding: 28px 34px 50px; max-width: 1500px; }
+    .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+    h1 { margin: 0; font-size: 25px; color: var(--navy); letter-spacing: .3px; }
+    .sub { color: var(--muted); font-size: 12px; margin-top: 8px; }
+    .badge {
+      background: var(--teal-soft); color: var(--teal); border: 1px solid #B8DDE0;
+      padding: 7px 11px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    }
+    .kpis { display: grid; grid-template-columns: repeat(6, minmax(130px, 1fr)); gap: 12px; margin-top: 24px; }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 15px 16px; }
+    .kpi .label { font-size: 11px; color: var(--muted); }
+    .kpi .value { font-size: 23px; font-weight: 700; color: var(--navy); margin-top: 7px; }
+    .kpi .delta { font-size: 11px; margin-top: 5px; color: var(--muted); }
+    .up { color: var(--teal); } .down { color: var(--red); }
+    .grid { display: grid; gap: 16px; margin-top: 18px; }
+    .grid.two { grid-template-columns: 1.35fr 1fr; }
+    .grid.equal { grid-template-columns: 1fr 1fr; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 18px 18px 10px; }
+    .card h2 { font-size: 14px; margin: 0 0 4px; color: var(--navy); }
+    .card .hint { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+    .chart { width: 100%; height: 310px; }
+    .chart.tall { height: 380px; }
+    section { scroll-margin-top: 20px; }
+    section > h2 { font-size: 17px; color: var(--navy); margin: 34px 0 6px; }
+    section > .lead { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th { text-align: left; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--line); padding: 9px 8px; }
+    td { border-bottom: 1px solid #F0F2F5; padding: 9px 8px; }
+    td.num, th.num { text-align: right; }
+    .alert { border-left: 3px solid var(--orange); background: #FFF9F0; padding: 11px 13px; border-radius: 0 7px 7px 0; margin-bottom: 9px; font-size: 12px; }
+    .alert.high { border-color: var(--red); background: #FFF4F2; }
+    .pill { display: inline-block; background: #EEF2F6; color: var(--navy); padding: 3px 8px; border-radius: 999px; font-size: 11px; margin: 2px 4px 2px 0; }
+    .ai-box { background: linear-gradient(135deg, #173B57, #0E7C86); color: #fff; border-radius: 11px; padding: 20px 22px; }
+    .ai-box h2 { color: #fff; margin: 0 0 8px; }
+    .ai-box p { color: #D7E8EF; font-size: 12px; line-height: 1.7; }
+    .ai-q { background: rgba(255,255,255,.1); border-left: 3px solid #8ED3D8; padding: 10px 12px; border-radius: 0 6px 6px 0; margin-top: 9px; font-size: 12px; }
+    .footer { margin-top: 38px; color: var(--muted); font-size: 11px; line-height: 1.8; border-top: 1px solid var(--line); padding-top: 15px; }
+    @media (max-width: 1100px) {
+      .kpis { grid-template-columns: repeat(3, 1fr); }
+      .grid.two, .grid.equal { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { padding: 22px 18px 40px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">消费金融经营分析<small>AI Copilot · 0→1 个人项目</small></div>
+    <nav class="nav">
+      <a href="#overview">经营总览</a>
+      <a href="#funnel">审批漏斗</a>
+      <a href="#portfolio">组合与风险</a>
+      <a href="#vintage">Vintage 迁徙</a>
+      <a href="#alerts">异常与归因</a>
+      <a href="#ai">AI 分析示例</a>
+    </nav>
+  </aside>
+  <main class="main">
+    <div class="top">
+      <div>
+        <h1>消费金融经营分析 AI Copilot</h1>
+        <div class="sub">申请 → 审批 → 用信 → 放款 → 还款 → 逾期 → 复贷 全链路经营监控</div>
+      </div>
+      <div class="badge">数据锚点 2026-09-30 · Home Credit 公开数据</div>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <section id="overview">
+      <h2>一、经营总览</h2>
+      <div class="lead">先看总量与趋势，再拆结构和比率。金额单位为万元（归一化），仅用于结构与趋势分析。</div>
+      <div class="grid two">
+        <div class="card">
+          <h2>月度进件量与审批通过率</h2>
+          <div class="hint">柱：进件量；线：审批通过率</div>
+          <div class="chart" id="trendChart"></div>
+        </div>
+        <div class="card">
+          <h2>审批漏斗（最新月）</h2>
+          <div class="hint">通过包含 Approved 与 Unused offer；用信仅含 Approved</div>
+          <div class="chart" id="funnelChart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="funnel">
+      <h2>二、渠道与产品</h2>
+      <div class="lead">通过率和用信率必须按分子/分母重新汇总，不能对已算好的比率求平均。</div>
+      <div class="grid two">
+        <div class="card">
+          <h2>渠道审批金额与通过率</h2>
+          <div class="hint">柱：审批金额；线：审批通过率</div>
+          <div class="chart" id="channelChart"></div>
+        </div>
+        <div class="card">
+          <h2>产品结构</h2>
+          <div class="hint">按合同类型与产品类型拆分</div>
+          <div class="chart" id="productChart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <h2>三、组合与风险</h2>
+      <div class="lead">当前在贷组合的风险与敞口。TARGET 表示 30+ 天逾期标签，不等同于核销率。</div>
+      <div class="grid two">
+        <div class="card">
+          <h2>地区评级与不良率</h2>
+          <div class="chart" id="regionChart"></div>
+        </div>
+        <div class="card">
+          <h2>客户价值 × 风险分层</h2>
+          <div class="hint">高价值低风险优先提额与复贷；高价值高风险优先控额与人工复核</div>
+          <div class="chart" id="segmentChart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vintage">
+      <h2>四、Vintage 迁徙</h2>
+      <div class="lead">按放款 cohort 观察账龄迁徙，控制账龄结构变化对风险指标的干扰。</div>
+      <div class="card">
+        <h2>DPD30 迁徙热力图</h2>
+        <div class="hint">横轴：账龄月；纵轴：放款 cohort；颜色越深风险越高</div>
+        <div class="chart tall" id="vintageChart"></div>
+      </div>
+    </section>
+
+    <section id="alerts">
+      <h2>五、异常与归因</h2>
+      <div class="lead">异常检测使用滚动中位数与 MAD 的稳健 z 分数，避免极端值干扰。</div>
+      <div class="grid two">
+        <div class="card">
+          <h2>异常信号</h2>
+          <div id="alertList"></div>
+        </div>
+        <div class="card">
+          <h2>审批通过率变化分解</h2>
+          <div class="hint">结构效应 + 比率效应</div>
+          <div id="decompTable"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai">
+      <h2>六、AI 分析示例</h2>
+      <div class="ai-box">
+        <h2>把 AI 当队友，而不是搜索引擎</h2>
+        <p>AI Copilot 的链路：问题改写 → 语义层检索 → SQL 生成 → 只读校验 → 执行 → 结果校验 → 解释 → 图表建议。所有数字来自数据仓库，模型只负责解释和建议。</p>
+        <div class="ai-q"><strong>问：</strong>最近 6 个月每月的审批通过率和用信率是多少？</div>
+        <div class="ai-q"><strong>答：</strong>已按语义层口径生成只读 SQL，返回月度趋势；通过率 =（Approved + Unused offer）/ 进件量，用信率 = Approved /（Approved + Unused offer）。</div>
+        <div class="ai-q"><strong>问：</strong>哪个渠道的通过率下降最明显？是结构变化还是渠道自身变化？</div>
+        <div class="ai-q"><strong>答：</strong>先按渠道拆分通过率，再做结构效应与比率效应分解；结论必须附数字证据和口径说明。</div>
+      </div>
+    </section>
+
+    <div class="footer">
+      项目说明：本项目使用 Home Credit 公开消费金融数据，业务日历为映射后的模拟时间；金额为归一化单位，仅用于结构与趋势分析。<br/>
+      协作说明：本人负责业务定义、指标口径、分析假设、结论判断与验收；Codex 参与数据管道、分析代码、AI 服务、看板与文档实现。<br/>
+      AI 输出仅作辅助决策，发布前需人工复核。
+    </div>
+  </main>
+</div>
+
+<script>
+  const DATA = __DATA__;
+  const navy = "#173B57", teal = "#0E7C86", orange = "#D97706", gray = "#6B7280";
+  const charts = [];
+  function init(id, option) {
+    const el = document.getElementById(id);
+    const chart = echarts.init(el);
+    chart.setOption(option);
+    charts.push(chart);
+  }
+  function fmt(n, d=0) {
+    if (n === null || n === undefined || Number.isNaN(n)) return "-";
+    return Number(n).toLocaleString("zh-CN", {minimumFractionDigits: d, maximumFractionDigits: d});
+  }
+  function pct(n, d=1) { return (n === null || n === undefined) ? "-" : (n*100).toFixed(d) + "%"; }
+
+  const latest = DATA.latest || {};
+  const kpiDefs = [
+    ["进件量", fmt(latest.applications), latest.applications, "applications"],
+    ["审批通过率", pct(latest.approval_rate), latest.approval_rate, "approval_rate"],
+    ["用信率", pct(latest.utilization_rate), latest.utilization_rate, "utilization_rate"],
+    ["审批金额", fmt(latest.approved_amount), latest.approved_amount, "approved_amount"],
+    ["件均（万元）", fmt(latest.avg_ticket, 2), latest.avg_ticket, "avg_ticket"],
+    ["平均期限（月）", fmt(latest.avg_term_months, 1), latest.avg_term_months, "avg_term_months"]
+  ];
+  document.getElementById("kpis").innerHTML = kpiDefs.map(([label, value]) => `
+    <div class="kpi"><div class="label">${label}</div><div class="value">${value}</div>
+    <div class="delta">最新月 ${DATA.latest_month || ""}</div></div>`).join("");
+
+  const months = DATA.kpi.map(x => x.year_month);
+  init("trendChart", {
+    tooltip: {trigger: "axis"},
+    legend: {top: 0, textStyle: {color: gray, fontSize: 11}},
+    grid: {left: 48, right: 52, top: 38, bottom: 40},
+    xAxis: {type: "category", data: months, axisLabel: {color: gray, fontSize: 10, rotate: 35}},
+    yAxis: [
+      {type: "value", name: "进件量", axisLabel: {color: gray}, splitLine: {lineStyle: {color: "#EEF1F4"}}},
+      {type: "value", name: "通过率", axisLabel: {color: gray, formatter: v => (v*100).toFixed(0)+"%"}, splitLine: {show: false}}
+    ],
+    series: [
+      {name: "进件量", type: "bar", data: DATA.kpi.map(x => x.applications), itemStyle: {color: teal, borderRadius: [4,4,0,0]}, barMaxWidth: 22},
+      {name: "审批通过率", type: "line", yAxisIndex: 1, data: DATA.kpi.map(x => x.approval_rate), itemStyle: {color: orange}, lineStyle: {width: 2.2}, symbolSize: 5}
+    ]
+  });
+
+  init("funnelChart", {
+    tooltip: {trigger: "item"},
+    grid: {left: 70, right: 40, top: 20, bottom: 20},
+    xAxis: {type: "value", axisLabel: {color: gray}, splitLine: {lineStyle: {color: "#EEF1F4"}}},
+    yAxis: {type: "category", data: DATA.funnel.map(x => x.stage).reverse(), axisLabel: {color: gray}},
+    series: [{type: "bar", data: DATA.funnel.map(x => x.value).reverse(), barMaxWidth: 30,
+      itemStyle: {color: params => [teal, "#4FA3A9", navy][params.dataIndex % 3], borderRadius: [0,4,4,0]},
+      label: {show: true, position: "right", formatter: p => fmt(p.value), color: navy, fontSize: 11}}]
+  });
+
+  init("channelChart", {
+    tooltip: {trigger: "axis"},
+    legend: {top: 0, textStyle: {color: gray, fontSize: 11}},
+    grid: {left: 52, right: 52, top: 38, bottom: 62},
+    xAxis: {type: "category", data: DATA.channel.map(x => x.channel_type), axisLabel: {color: gray, fontSize: 10, rotate: 30}},
+    yAxis: [
+      {type: "value", name: "金额", axisLabel: {color: gray}, splitLine: {lineStyle: {color: "#EEF1F4"}}},
+      {type: "value", name: "通过率", axisLabel: {color: gray, formatter: v => (v*100).toFixed(0)+"%"}, splitLine: {show: false}}
+    ],
+    series: [
+      {name: "审批金额", type: "bar", data: DATA.channel.map(x => x.approved_amount), itemStyle: {color: teal, borderRadius: [4,4,0,0]}, barMaxWidth: 26},
+      {name: "审批通过率", type: "line", yAxisIndex: 1, data: DATA.channel.map(x => x.approval_rate), itemStyle: {color: orange}, lineStyle: {width: 2}}
+    ]
+  });
+
+  const productNames = DATA.products.map(x => `${x.contract_type} / ${x.product_type}`);
+  init("productChart", {
+    tooltip: {trigger: "axis", formatter: p => `${productNames[p[0].dataIndex]}<br/>进件量：${fmt(p[0].value)}`},
+    grid: {left: 150, right: 40, top: 16, bottom: 28},
+    xAxis: {type: "value", axisLabel: {color: gray}, splitLine: {lineStyle: {color: "#EEF1F4"}}},
+    yAxis: {type: "category", data: productNames.map(x => x.length > 22 ? x.slice(0, 20) + "…" : x), axisLabel: {color: gray, fontSize: 9}},
+    series: [{type: "bar", data: DATA.products.map(x => x.applications), itemStyle: {color: teal, borderRadius: [0,4,4,0]}, barMaxWidth: 20,
+      label: {show: true, position: "right", formatter: p => fmt(p.value), color: navy, fontSize: 9}}]
+  });
+
+  init("regionChart", {
+    tooltip: {trigger: "axis"},
+    grid: {left: 48, right: 30, top: 30, bottom: 35},
+    xAxis: {type: "category", data: DATA.regions.map(x => "评级 " + x.region_rating), axisLabel: {color: gray}},
+    yAxis: {type: "value", axisLabel: {color: gray, formatter: v => (v*100).toFixed(0)+"%"}, splitLine: {lineStyle: {color: "#EEF1F4"}}},
+    series: [{type: "bar", data: DATA.regions.map(x => x.bad_rate), itemStyle: {color: teal, borderRadius: [5,5,0,0]}, barMaxWidth: 40,
+      label: {show: true, position: "top", formatter: p => pct(p.value, 2), color: navy, fontSize: 11}}]
+  });
+
+  const segNames = DATA.segments.map(x => `${x.value_segment}/${x.risk_segment}`);
+  init("segmentChart", {
+    tooltip: {trigger: "axis"},
+    grid: {left: 50, right: 30, top: 30, bottom: 70},
+    xAxis: {type: "category", data: segNames, axisLabel: {color: gray, fontSize: 9, rotate: 35}},
+    yAxis: {type: "value", name: "客户数", axisLabel: {color: gray}, splitLine: {lineStyle: {color: "#EEF1F4"}}},
+    series: [{type: "bar", data: DATA.segments.map(x => x.customers), itemStyle: {color: teal, borderRadius: [4,4,0,0]}, barMaxWidth: 26}]
+  });
+
+  const cohorts = [...new Set(DATA.vintage.map(x => x.cohort))];
+  const mobs = [...new Set(DATA.vintage.map(x => x.mob))].sort((a,b) => a-b);
+  const heat = DATA.vintage.map(x => [mobs.indexOf(x.mob), cohorts.indexOf(x.cohort), +(x.cum_dpd30_rate*100).toFixed(2)]);
+  init("vintageChart", {
+    tooltip: {position: "top", formatter: p => `${cohorts[p.value[1]]} / MOB ${mobs[p.value[0]]}<br/>累计DPD30: ${p.value[2]}%`},
+    grid: {left: 70, right: 20, top: 20, bottom: 40},
+    xAxis: {type: "category", data: mobs, name: "MOB", axisLabel: {color: gray, fontSize: 9}},
+    yAxis: {type: "category", data: cohorts, axisLabel: {color: gray, fontSize: 9}},
+    visualMap: {min: 0, max: Math.max(5, ...heat.map(x => x[2])), calculable: true, orient: "horizontal", left: "center", bottom: 0,
+      inRange: {color: ["#F7FBFC", "#FDE68A", "#F59E0B", "#B42318"]}, textStyle: {color: gray, fontSize: 10}},
+    series: [{type: "heatmap", data: heat, label: {show: false}, emphasis: {itemStyle: {shadowBlur: 8, shadowColor: "rgba(0,0,0,.25)"}}}]
+  });
+
+  document.getElementById("alertList").innerHTML = DATA.alerts.length ? DATA.alerts.map(a => `
+    <div class="alert ${a.severity}">
+      <strong>${a.period} · ${a.label}</strong><br/>
+      本期 ${fmt(a.value, 4)}，上期 ${fmt(a.previous, 4)}，环比 ${pct(a.delta_pct, 1)}，稳健 z = ${a.robust_z}
+    </div>`).join("") : `<div class="alert">本月未触发统计异常阈值。建议结合业务事件复核。</div>`;
+
+  const decomp = DATA.decomposition.slice().sort((a,b) => b.total_effect - a.total_effect);
+  document.getElementById("decompTable").innerHTML = `
+    <table><thead><tr><th>渠道</th><th class="num">结构效应</th><th class="num">比率效应</th><th class="num">合计</th></tr></thead>
+    <tbody>${decomp.map(x => `<tr><td>${x.channel_type}</td><td class="num">${(x.mix_effect).toFixed(4)}</td>
+      <td class="num">${(x.rate_effect).toFixed(4)}</td><td class="num"><strong>${(x.total_effect).toFixed(4)}</strong></td></tr>`).join("")}</tbody></table>`;
+
+  window.addEventListener("resize", () => charts.forEach(c => c.resize()));
+</script>
+</body>
+</html>

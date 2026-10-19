@@ -1,0 +1,92 @@
+{
+  "rows": 307511,
+  "train_rows": 215257,
+  "test_rows": 92254,
+  "bad_rate": 0.0807,
+  "auc": 0.7258,
+  "ks": 0.3352,
+  "features_used": 8,
+  "features": [
+    {
+      "feature": "ext_source_mean",
+      "kind": "numeric",
+      "iv": 0.6039,
+      "coefficient": 0.9187
+    },
+    {
+      "feature": "employed_years",
+      "kind": "numeric",
+      "iv": 0.1119,
+      "coefficient": 0.6037
+    },
+    {
+      "feature": "age_years",
+      "kind": "numeric",
+      "iv": 0.0858,
+      "coefficient": -0.0758
+    },
+    {
+      "feature": "goods_price",
+      "kind": "numeric",
+      "iv": 0.0853,
+      "coefficient": 0.6017
+    },
+    {
+      "feature": "credit_amount",
+      "kind": "numeric",
+      "iv": 0.0494,
+      "coefficient": -0.0111
+    },
+    {
+      "feature": "region_rating",
+      "kind": "numeric",
+      "iv": 0.0261,
+      "coefficient": 0.2542
+    },
+    {
+      "feature": "region_population_relative",
+      "kind": "numeric",
+      "iv": 0.0245,
+      "coefficient": 0.2154
+    },
+    {
+      "feature": "annuity",
+      "kind": "numeric",
+      "iv": 0.0242,
+      "coefficient": 0.5262
+    }
+  ],
+  "risk_band_summary": [
+    {
+      "risk_band": "A-低风险",
+      "customers": 61532,
+      "bad_rate": 0.0227,
+      "avg_pd": 0.0218
+    },
+    {
+      "risk_band": "B-较低风险",
+      "customers": 61473,
+      "bad_rate": 0.0384,
+      "avg_pd": 0.0379
+    },
+    {
+      "risk_band": "C-中风险",
+      "customers": 61502,
+      "bad_rate": 0.0573,
+      "avg_pd": 0.0581
+    },
+    {
+      "risk_band": "D-较高风险",
+      "customers": 61502,
+      "bad_rate": 0.0933,
+      "avg_pd": 0.0938
+    },
+    {
+      "risk_band": "E-高风险",
+      "customers": 61502,
+      "bad_rate": 0.1919,
+      "avg_pd": 0.1918
+    }
+  ],
+  "note": "Model performance is sufficient for portfolio segmentation; production use still requires validation."
+}

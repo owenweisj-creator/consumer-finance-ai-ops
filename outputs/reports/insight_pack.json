@@ -1,0 +1,394 @@
+{
+  "snapshot": {
+    "applications": {
+      "value": 36012.0,
+      "previous": 28537.0,
+      "delta": 7475.0,
+      "delta_pct": 0.26194063846935556
+    },
+    "approved": {
+      "value": 8245.0,
+      "previous": 8394.0,
+      "delta": -149.0,
+      "delta_pct": -0.01775077436263998
+    },
+    "used": {
+      "value": 8070.0,
+      "previous": 7975.0,
+      "delta": 95.0,
+      "delta_pct": 0.011912225705329153
+    },
+    "approval_rate": {
+      "value": 0.229,
+      "previous": 0.2941,
+      "delta": -0.06509999999999996,
+      "delta_pct": -0.2213532811968717
+    },
+    "utilization_rate": {
+      "value": 0.9788,
+      "previous": 0.9501,
+      "delta": 0.02870000000000006,
+      "delta_pct": 0.030207346595095316
+    },
+    "approved_amount": {
+      "value": 188680.95,
+      "previous": 142868.64,
+      "delta": 45812.31,
+      "delta_pct": 0.3206603632539653
+    },
+    "avg_ticket": {
+      "value": 23.38,
+      "previous": 17.91,
+      "delta": 5.469999999999999,
+      "delta_pct": 0.30541596873255156
+    },
+    "avg_term_months": {
+      "value": 15.97,
+      "previous": 13.66,
+      "delta": 2.3100000000000005,
+      "delta_pct": 0.16910688140556374
+    },
+    "avg_interest_rate_primary": {
+      "value": 0.1286,
+      "previous": 0.117,
+      "delta": 0.011599999999999985,
+      "delta_pct": 0.09914529914529902
+    },
+    "period": "2026-09",
+    "previous_period": "2026-08"
+  },
+  "alerts": [
+    {
+      "period": "2026-09",
+      "metric": "approval_rate",
+      "label": "审批通过率",
+      "value": 0.229,
+      "previous": 0.2941,
+      "delta_pct": -0.2213532811968717,
+      "robust_z": -7.11,
+      "severity": "high"
+    },
+    {
+      "period": "2026-07",
+      "metric": "applications",
+      "label": "进件量",
+      "value": 24967.0,
+      "previous": 34640.0,
+      "delta_pct": -0.27924364896073905,
+      "robust_z": -2.51,
+      "severity": "medium"
+    },
+    {
+      "period": "2026-07",
+      "metric": "avg_ticket",
+      "label": "件均金额",
+      "value": 18.74,
+      "previous": 21.49,
+      "delta_pct": -0.12796649604467195,
+      "robust_z": -2.79,
+      "severity": "medium"
+    },
+    {
+      "period": "2026-07",
+      "metric": "approval_rate",
+      "label": "审批通过率",
+      "value": 0.3664,
+      "previous": 0.3279,
+      "delta_pct": 0.11741384568465989,
+      "robust_z": 3.9,
+      "severity": "high"
+    },
+    {
+      "period": "2026-06",
+      "metric": "avg_ticket",
+      "label": "件均金额",
+      "value": 21.49,
+      "previous": 21.8,
+      "delta_pct": -0.014220183486238635,
+      "robust_z": -3.03,
+      "severity": "medium"
+    },
+    {
+      "period": "2026-06",
+      "metric": "applications",
+      "label": "进件量",
+      "value": 34640.0,
+      "previous": 44347.0,
+      "delta_pct": -0.2188874106478454,
+      "robust_z": -3.72,
+      "severity": "high"
+    },
+    {
+      "period": "2026-06",
+      "metric": "utilization_rate",
+      "label": "用信率",
+      "value": 0.9453,
+      "previous": 0.955,
+      "delta_pct": -0.010157068062827153,
+      "robust_z": -3.88,
+      "severity": "high"
+    },
+    {
+      "period": "2026-05",
+      "metric": "applications",
+      "label": "进件量",
+      "value": 44347.0,
+      "previous": 52772.0,
+      "delta_pct": -0.15964905631774426,
+      "robust_z": -2.63,
+      "severity": "medium"
+    }
+  ],
+  "decomposition": [
+    {
+      "year_month": "2026-09",
+      "channel_type": "Country-wide",
+      "applications_current": 4384.0,
+      "approved_current": 3842.0,
+      "used": 3667.0,
+      "approval_rate_current": 0.8764,
+      "utilization_rate": 0.9545,
+      "approved_amount": 33625.32,
+      "avg_ticket": 9.17,
+      "applications_previous": 4754.0,
+      "approved_previous": 4309.0,
+      "approval_rate_previous": 0.9064,
+      "weight_current": 0.1217371987115406,
+      "weight_previous": 0.16659074184392192,
+      "mix_effect": -0.027461830986615293,
+      "rate_effect": -0.003652115961346221,
+      "total_effect": -0.031113946947961515,
+      "current_month": "2026-09",
+      "previous_month": "2026-08",
+      "overall_current_rate": 0.22895146062423635,
+      "overall_previous_rate": 0.2941444440550864
+    },
+    {
+      "year_month": "2026-09",
+      "channel_type": "Credit and cash offices",
+      "applications_current": 23430.0,
+      "approved_current": 1837.0,
+      "used": 1837.0,
+      "approval_rate_current": 0.0784,
+      "utilization_rate": 1.0,
+      "approved_amount": 110701.4,
+      "avg_ticket": 60.26,
+      "applications_previous": 17197.0,
+      "approved_previous": 1472.0,
+      "approval_rate_previous": 0.0856,
+      "weight_current": 0.6506164611796068,
+      "weight_previous": 0.6026211584959876,
+      "mix_effect": -0.010009153715410956,
+      "rate_effect": -0.004684438520493168,
+      "total_effect": -0.014693592235904124,
+      "current_month": "2026-09",
+      "previous_month": "2026-08",
+      "overall_current_rate": 0.22895146062423635,
+      "overall_previous_rate": 0.2941444440550864
+    },
+    {
+      "year_month": "2026-09",
+      "channel_type": "Stone",
+      "applications_current": 1397.0,
+      "approved_current": 1231.0,
+      "used": 1231.0,
+      "approval_rate_current": 0.8812,
+      "utilization_rate": 1.0,
+      "approved_amount": 14169.4,
+      "avg_ticket": 11.51,
+      "applications_previous": 1562.0,
+      "approved_previous": 1440.0,
+      "approval_rate_previous": 0.9219,
+      "weight_current": 0.038792624680662004,
+      "weight_previous": 0.054735956827977716,
+      "mix_effect": -0.01000851533575259,
+      "rate_effect": -0.0015788598245029463,
+      "total_effect": -0.011587375160255537,
+      "current_month": "2026-09",
+      "previous_month": "2026-08",
+      "overall_current_rate": 0.22895146062423635,
+      "overall_previous_rate": 0.2941444440550864
+    },
+    {
+      "year_month": "2026-09",
+      "channel_type": "Regional / Local",
+      "applications_current": 1075.0,
+      "approved_current": 940.0,
+      "used": 940.0,
+      "approval_rate_current": 0.8744,
+      "utilization_rate": 1.0,
+      "approved_amount": 10505.76,
+      "avg_ticket": 11.18,
+      "applications_previous": 1010.0,
+      "approved_previous": 922.0,
+      "approval_rate_previous": 0.9129,
+      "weight_current": 0.029851160724203043,
+      "weight_previous": 0.03539264814100992,
+      "mix_effect": -0.003428826127348081,
+      "rate_effect": -0.00114926968788182,
+      "total_effect": -0.004578095815229901,
+      "current_month": "2026-09",
+      "previous_month": "2026-08",
+      "overall_current_rate": 0.22895146062423635,
+      "overall_previous_rate": 0.2941444440550864
+    },
+    {
+      "year_month": "2026-09",
+      "channel_type": "AP+ (Cash loan)",
+      "applications_current": 468.0,
+      "approved_current": 108.0,
+      "used": 108.0,
+      "approval_rate_current": 0.2308,
+      "utilization_rate": 1.0,
+      "approved_amount": 3859.7,
+      "avg_ticket": 35.74,
+      "applications_previous": 243.0,
+      "approved_previous": 95.0,
+      "approval_rate_previous": 0.3909,
+      "weight_current": 0.01299566811062979,
+      "weight_previous": 0.008515260889371693,
+      "mix_effect": 0.0004335042915524329,
+      "rate_effect": -0.0020806064645118296,
+      "total_effect": -0.0016471021729593967,
+      "current_month": "2026-09",
+      "previous_month": "2026-08",
+      "overall_current_rate": 0.22895146062423635,
+      "overall_previous_rate": 0.2941444440550864
+    },
+    {
+      "year_month": "2026-09",
+      "channel_type": "Contact center",
+      "applications_current": 4939.0,
+      "approved_current": 214.0,
+      "used": 214.0,
+      "approval_rate_current": 0.0433,
+      "utilization_rate": 1.0,
+      "approved_amount": 14296.85,
+      "avg_ticket": 66.81,
+      "applications_previous": 3557.0,
+      "approved_previous": 110.0,
+      "approval_rate_previous": 0.0309,
+      "weight_current": 0.13714872820171053,
+      "weight_previous": 0.12464519746294285,
+      "mix_effect": -0.0032914849980525828,
+      "rate_effect": 0.0017006442297012104,
+      "total_effect": -0.0015908407683513724,
+      "current_month": "2026-09",
+      "previous_month": "2026-08",
+      "overall_current_rate": 0.22895146062423635,
+      "overall_previous_rate": 0.2941444440550864
+    },
+    {
+      "year_month": "2026-09",
+      "channel_type": "Channel of corporate sales",
+      "applications_current": 319.0,
+      "approved_current": 73.0,
+      "used": 73.0,
+      "approval_rate_current": 0.2288,
+      "utilization_rate": 1.0,
+      "approved_amount": 1522.54,
+      "avg_ticket": 20.86,
+      "applications_previous": 214.0,
+      "approved_previous": 46.0,
+      "approval_rate_previous": 0.215,
+      "weight_current": 0.008858158391647228,
+      "weight_previous": 0.00749903633878824,
+      "mix_effect": -0.00010756695927653233,
+      "rate_effect": 0.00012224258580473182,
+      "total_effect": 1.4675626528199483e-05,
+      "current_month": "2026-09",
+      "previous_month": "2026-08",
+      "overall_current_rate": 0.22895146062423635,
+      "overall_previous_rate": 0.2941444440550864
+    }
+  ],
+  "segments": [
+    {
+      "value_segment": "低价值",
+      "risk_segment": "中风险",
+      "customers": 79559,
+      "bad_rate": 0.0149,
+      "avg_credit": 54.57,
+      "avg_income": 13.99,
+      "avg_approved_amount": 6.61,
+      "avg_applications": 1.27
+    },
+    {
+      "value_segment": "低价值",
+      "risk_segment": "高风险",
+      "customers": 6291,
+      "bad_rate": 1.0,
+      "avg_credit": 49.04,
+      "avg_income": 12.82,
+      "avg_approved_amount": 6.51,
+      "avg_applications": 1.46
+    },
+    {
+      "value_segment": "中价值",
+      "risk_segment": "中风险",
+      "customers": 123779,
+      "bad_rate": 0.0139,
+      "avg_credit": 59.02,
+      "avg_income": 16.15,
+      "avg_approved_amount": 34.59,
+      "avg_applications": 3.96
+    },
+    {
+      "value_segment": "中价值",
+      "risk_segment": "高风险",
+      "customers": 8867,
+      "bad_rate": 1.0,
+      "avg_credit": 53.11,
+      "avg_income": 17.02,
+      "avg_approved_amount": 30.81,
+      "avg_applications": 4.56
+    },
+    {
+      "value_segment": "高价值",
+      "risk_segment": "中风险",
+      "customers": 83601,
+      "bad_rate": 0.0162,
+      "avg_credit": 67.72,
+      "avg_income": 20.81,
+      "avg_approved_amount": 144.01,
+      "avg_applications": 8.62
+    },
+    {
+      "value_segment": "高价值",
+      "risk_segment": "高风险",
+      "customers": 5414,
+      "bad_rate": 1.0,
+      "avg_credit": 61.59,
+      "avg_income": 19.88,
+      "avg_approved_amount": 130.23,
+      "avg_applications": 9.75
+    }
+  ],
+  "vintage_latest": [],
+  "region": [
+    {
+      "region_rating": 1,
+      "customers": 32197,
+      "bad_rate": 0.0482,
+      "exposure": 2446941.76,
+      "avg_credit": 76.0,
+      "avg_ext_source": 0.5841
+    },
+    {
+      "region_rating": 2,
+      "customers": 226984,
+      "bad_rate": 0.0789,
+      "exposure": 13201638.98,
+      "avg_credit": 58.16,
+      "avg_ext_source": 0.5111
+    },
+    {
+      "region_rating": 3,
+      "customers": 48330,
+      "bad_rate": 0.111,
+      "exposure": 2772127.68,
+      "avg_credit": 57.36,
+      "avg_ext_source": 0.4507
+    }
+  ]
+}
