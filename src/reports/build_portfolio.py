@@ -213,7 +213,7 @@ def build_portfolio() -> Path:
     # 2. Data & architecture
     _heading(doc, "02 数据底座与技术架构")
     doc.add_picture(str(architecture), width=Inches(6.7))
-    _body(doc, "数据底座采用 DuckDB 星型模型：客户、产品、渠道、地区、日期五个维度，申请、历史申请、分期还款、POS/信用卡账本、征信五类事实。原始表约 3,100 万行，覆盖 6 张业务表；bureau_balance 作为可选扩展表。")
+    _body(doc, "数据底座采用 DuckDB 星型模型：客户、产品、渠道、地区、日期五个维度，申请、历史申请、分期还款、POS/信用卡账本、征信五类事实。原始表约 5,800 万行，覆盖 7 张业务表。")
     data_table = pd.DataFrame(
         [
             ("application_train", "307,511", "当前申请/在贷客户快照，含 TARGET"),
@@ -222,6 +222,7 @@ def build_portfolio() -> Path:
             ("POS_CASH_balance", "10,001,358", "POS 分期月度账本"),
             ("credit_card_balance", "3,840,312", "信用卡额度与余额账本"),
             ("bureau", "1,716,428", "外部征信与历史信用表现"),
+            ("bureau_balance", "27,299,925", "征信月度状态账本"),
         ],
         columns=["表", "行数", "业务用途"],
     )
