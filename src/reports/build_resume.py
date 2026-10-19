@@ -85,7 +85,7 @@ def _load_project_metrics() -> dict:
     if path.exists():
         return json.loads(path.read_text(encoding="utf-8"))
     return {
-        "data_rows": "3,100 万+",
+        "data_rows": "5,800 万+",
         "metric_count": "13",
         "eval_questions": "42",
         "sql_accuracy": "85.3%",
@@ -210,7 +210,7 @@ def build_resume() -> Path:
     _set_font(p2, size=8.2, bold=True, color=TEAL)
     p3 = project.add_run("  2026.09 – 2026.10")
     _set_font(p3, size=8.0, color=LIGHT)
-    _bold_prefix(right, "数据底座：", f"基于 Home Credit 6 张业务表（约 {metrics['data_rows']} 行）构建 DuckDB 星型模型，定义 {metrics['metric_count']} 个指标口径，覆盖审批漏斗、组合结构、vintage 迁徙与客户分层。")
+    _bold_prefix(right, "数据底座：", f"基于 Home Credit 7 张表（约 {metrics['data_rows']} 行）构建 DuckDB 星型模型，定义 {metrics['metric_count']} 个指标口径，覆盖审批漏斗、组合结构、vintage 迁徙与客户分层。")
     _bold_prefix(right, "经营诊断：", f"完成渠道/产品/地区/客群四维分析，使用结构效应与比率效应分解定位审批通过率变化来源；构建 WOE/IV 风险评分卡（AUC {metrics['scorecard_auc']}、KS {metrics['scorecard_ks']}），PD 校准后风险分层单调。")
     _bold_prefix(right, "AI Copilot：", f"设计语义层与只读 NL2SQL 链路，DeepSeek 生成 SQL 后经 sqlglot 校验、DuckDB 只读执行与结果复核；构建 RAG 知识库与 {metrics['eval_questions']} 题评测集，SQL 准确率 {metrics['sql_accuracy']}、知识问答 {metrics['knowledge_accuracy']}，危险 SQL 拦截率 {metrics['guardrail_rate']}。")
     _bold_prefix(right, "产品化：", f"产出 PRD、UAT、培训手册与推广方案；HTML 看板与 Excel 工作簿支持经营例会，单次月报生成 {metrics['report_generation_time']}（本机实测）。")
