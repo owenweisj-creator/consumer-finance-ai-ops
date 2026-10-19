@@ -8,7 +8,7 @@
     "pos_cash_balance": 10001358,
     "credit_card_balance": 3840312,
     "bureau": 1716428,
-    "bureau_balance": 0
+    "bureau_balance": 27299925
   },
   "table_checks": [
     {
@@ -43,7 +43,7 @@
     },
     {
       "table": "raw.bureau_balance",
-      "rows": 0,
+      "rows": 27299925,
       "columns": 3
     }
   ],
