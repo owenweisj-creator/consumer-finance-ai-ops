@@ -1,0 +1,11 @@
+[project]
+name = "consumer-finance-ai-ops"
+version = "1.0.0"
+description = "Consumer finance operating analytics + AI Copilot"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+
