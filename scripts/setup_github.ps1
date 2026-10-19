@@ -9,7 +9,12 @@ $gh = Join-Path $root "tools\bin\gh.exe"
 if (-not (Test-Path $gh)) { throw "GitHub CLI not found: $gh" }
 
 & $gh auth status
-$repoFull = (& $gh repo view --json nameWithOwner -q .nameWithOwner 2>$null)
+$repoFull = $null
+try {
+    $repoFull = (& $gh repo view --json nameWithOwner -q .nameWithOwner 2>$null)
+} catch {
+    $repoFull = $null
+}
 if (-not $repoFull) {
     $visibility = "--public"
     if ($SkipPush) {
