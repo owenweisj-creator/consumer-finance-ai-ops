@@ -13,7 +13,7 @@
 | raw.pos_cash_balance | 10,001,358 | 8 |
 | raw.credit_card_balance | 3,840,312 | 23 |
 | raw.bureau | 1,716,428 | 17 |
-| raw.bureau_balance | 0 | 3 |
+| raw.bureau_balance | 27,299,925 | 3 |
 
 ## 主键重复
 
