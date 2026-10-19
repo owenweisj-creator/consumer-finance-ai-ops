@@ -35,6 +35,18 @@ views:
     description: 最新月与上月的渠道审批通过率变化分解，区分结构效应与比率效应。
     columns: [channel_type, weight_previous, weight_current, previous_rate, current_rate, mix_effect, rate_effect, total_effect]
     grain: 渠道
+  v_pos_monthly:
+    description: POS 分期账本月度表现，含活跃合同、剩余期数与 DPD30。
+    columns: [year_month, active_contracts, avg_future_installments, dpd30_rate]
+    grain: 月
+  v_credit_card_monthly:
+    description: 信用卡账本月度表现，含额度使用率、余额与 DPD30。
+    columns: [year_month, active_contracts, utilization_rate, total_balance, total_limit, dpd30_rate]
+    grain: 月
+  v_credit_profile:
+    description: 客户级外部征信汇总，含征信记录数、总授信、总负债、最大逾期天数。
+    columns: [customer_id, bureau_records, total_credit_sum, total_debt, max_overdue_days, active_records]
+    grain: 客户
 
 metrics:
   - name: 进件量
@@ -102,6 +114,21 @@ metrics:
     view: v_channel_rate_change
     expr: rate_effect
     definition: 当期渠道占比乘以渠道通过率变化，衡量同一渠道自身审批通过率变化的影响。
+  - name: 信用卡额度使用率
+    synonyms: [额度使用率, 信用卡使用率]
+    view: v_credit_card_monthly
+    expr: utilization_rate
+    definition: 信用卡账本余额 / 信用额度，按月汇总。
+  - name: POS 活跃合同数
+    synonyms: [分期活跃合同, POS活跃合同]
+    view: v_pos_monthly
+    expr: active_contracts
+    definition: 当月 POS 分期账本中有余额或还款计划的合同数。
+  - name: 外部征信负债
+    synonyms: [征信负债, 外部负债]
+    view: v_credit_profile
+    expr: total_debt
+    definition: 客户在外部征信中的负债合计，用于补充组合风险画像。
 
 dimensions:
   - name: 月份

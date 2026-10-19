@@ -108,6 +108,7 @@ def build_excel() -> Path:
         ("风险迁徙", "Vintage DPD30/60/90 矩阵"),
         ("客户分层", "价值 × 风险九宫格"),
         ("异常清单", "稳健 z 分数识别的经营异常"),
+        ("账本与额度", "POS 分期与信用卡账本的月度表现"),
         ("指标口径", "核心指标公式、分母与使用边界"),
     ]
     for index, (name, description) in enumerate(sheets, start=11):
@@ -303,6 +304,66 @@ def build_excel() -> Path:
         _write_table(workbook, ws, alerts, 3, header_format=header_fmt, number_formats={"本期值": money_fmt, "上期值": money_fmt, "环比": pct_fmt, "稳健z": money_fmt})
 
     # Metric dictionary
+    pos = query_df("SELECT * FROM mart.v_pos_monthly ORDER BY year_month")
+    cc = query_df("SELECT * FROM mart.v_credit_card_monthly ORDER BY year_month")
+    ws = workbook.add_worksheet("账本与额度")
+    ws.hide_gridlines(2)
+    ws.write("A1", "POS 分期与信用卡账本", title_fmt)
+    ws.write("A3", "POS 分期月度表现", section_fmt)
+    pos_display = pos.rename(
+        columns={
+            "year_month": "月份",
+            "active_contracts": "活跃合同数",
+            "avg_future_installments": "平均剩余期数",
+            "dpd30_rate": "DPD30",
+        }
+    ).tail(24)
+    _write_table(
+        workbook,
+        ws,
+        pos_display,
+        5,
+        header_format=header_fmt,
+        number_formats={"活跃合同数": num_fmt, "平均剩余期数": money_fmt, "DPD30": pct_fmt},
+        widths={"月份": 12, "活跃合同数": 14, "平均剩余期数": 14, "DPD30": 12},
+    )
+    ws.write("F3", "信用卡账本月度表现", section_fmt)
+    cc_display = cc.rename(
+        columns={
+            "year_month": "月份",
+            "active_contracts": "活跃合同数",
+            "utilization_rate": "额度使用率",
+            "total_balance": "总余额",
+            "total_limit": "总额度",
+            "dpd30_rate": "DPD30",
+        }
+    ).tail(24)
+    _write_table(
+        workbook,
+        ws,
+        cc_display,
+        5,
+        start_col=5,
+        header_format=header_fmt,
+        number_formats={"活跃合同数": num_fmt, "额度使用率": pct_fmt, "总余额": money_fmt, "总额度": money_fmt, "DPD30": pct_fmt},
+        widths={"月份": 12, "活跃合同数": 14, "额度使用率": 14, "总余额": 15, "总额度": 15, "DPD30": 12},
+    )
+    if not cc.empty:
+        cc_chart = workbook.add_chart({"type": "line"})
+        last = 5 + len(cc_display)
+        cc_chart.add_series(
+            {
+                "name": "信用卡额度使用率",
+                "categories": ["账本与额度", 6, 5, last, 5],
+                "values": ["账本与额度", 6, 7, last, 7],
+                "line": {"color": TEAL, "width": 2.4},
+            }
+        )
+        cc_chart.set_title({"name": "信用卡额度使用率"})
+        cc_chart.set_y_axis({"num_format": "0%"})
+        cc_chart.set_size({"width": 620, "height": 300})
+        ws.insert_chart("F16", cc_chart)
+
     metrics = pd.DataFrame(
         [
             ("进件量", "全部申请笔数", "v_kpi_monthly.applications", "包含通过、拒绝、取消、未使用额度"),

@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
@@ -57,10 +58,14 @@ def _bullet(doc, text, size=9.8):
 
 def _table(doc, df: pd.DataFrame, widths=None):
     table = doc.add_table(rows=1, cols=len(df.columns))
-    table.style = "Light Grid Accent 1"
+    table.style = "Table Grid"
     for index, column in enumerate(df.columns):
         cell = table.rows[0].cells[index]
         cell.text = str(column)
+        tc_pr = cell._tc.get_or_add_tcPr()
+        shading = OxmlElement("w:shd")
+        shading.set(qn("w:fill"), "173B57")
+        tc_pr.append(shading)
         for paragraph in cell.paragraphs:
             for run in paragraph.runs:
                 _font(run, size=8.5, bold=True, color=RGBColor(0xFF, 0xFF, 0xFF))
@@ -208,13 +213,15 @@ def build_portfolio() -> Path:
     # 2. Data & architecture
     _heading(doc, "02 数据底座与技术架构")
     doc.add_picture(str(architecture), width=Inches(6.7))
-    _body(doc, "数据底座采用 DuckDB 星型模型：客户、产品、渠道、地区、日期五个维度，申请、历史申请、分期还款、POS/信用卡账本、征信五类事实。原始表约 1,500 万行（核心三表），后续可扩展到 POS、信用卡与征信表。")
+    _body(doc, "数据底座采用 DuckDB 星型模型：客户、产品、渠道、地区、日期五个维度，申请、历史申请、分期还款、POS/信用卡账本、征信五类事实。原始表约 3,100 万行，覆盖 6 张业务表；bureau_balance 作为可选扩展表。")
     data_table = pd.DataFrame(
         [
             ("application_train", "307,511", "当前申请/在贷客户快照，含 TARGET"),
             ("previous_application", "1,670,214", "历史申请与审批结果，支撑漏斗"),
             ("installments_payments", "13,605,401", "每期应还/实还/逾期天数"),
-            ("POS / 信用卡 / 征信", "待接入", "账本与外部信用表现"),
+            ("POS_CASH_balance", "10,001,358", "POS 分期月度账本"),
+            ("credit_card_balance", "3,840,312", "信用卡额度与余额账本"),
+            ("bureau", "1,716,428", "外部征信与历史信用表现"),
         ],
         columns=["表", "行数", "业务用途"],
     )
@@ -237,6 +244,8 @@ def build_portfolio() -> Path:
     _body(doc, "发现五：评分卡 PD 校准良好，可用于分层而非直接授信。", bold=True, color=NAVY_RGB)
     _body(doc, f"WOE/IV + 逻辑回归评分卡在测试集上 AUC {scorecard['auc']:.3f}、KS {scorecard['ks']:.3f}；五个风险带的实际不良率从 2.27% 单调上升到 19.19%，预测 PD 与实测不良率基本一致。定位是客户分层工具，不是生产级授信模型。")
     doc.add_picture(str(scorecard_chart), width=Inches(6.4))
+    _body(doc, "发现六：账本结构在从分期向循环额度迁移。", bold=True, color=NAVY_RGB)
+    _body(doc, "信用卡额度使用率从 2026-06 的 41.1% 升至 2026-08 的 52.3%，但 POS 活跃合同从 18.4 万降到 9.5 万。循环额度使用上升、分期活跃下降，意味着存量客户更依赖信用卡额度；后续需要把额度使用率与 DPD30 联动监控，避免‘额度越用越满、风险越滚越大’。")
     doc.add_page_break()
 
     # 4. AI Copilot
@@ -267,7 +276,7 @@ def build_portfolio() -> Path:
     _body(doc, "交付物不是只有一个 notebook，而是一套能进入经营例会的工具：")
     for item in [
         "HTML 看板：经营总览、审批漏斗、组合与风险、Vintage、异常与归因、AI 示例六个模块，离线可打开。",
-        "Excel 工作簿：8 张表、原生图表、指标口径页，可直接用于经营例会。",
+        "Excel 工作簿：9 张表、原生图表、指标口径页，可直接用于经营例会。",
         "三类报告：周报、月报、专项（审批通过率结构分解），数字与 SQL 可追溯。",
         "产品文档：PRD、需求池、RACI、30 条 UAT、60 分钟培训手册、推广与采纳指标。",
         "AI 行业简报与 3 个创新提案：经营例会助手、审批策略 Copilot、客户经营 Agent。",

@@ -608,6 +608,51 @@ def _build_views(con: duckdb.DuckDBPyConnection) -> None:
         """
     )
 
+    con.execute(
+        """
+        CREATE OR REPLACE VIEW mart.v_pos_monthly AS
+        SELECT
+            strftime(snapshot_date, '%Y-%m') AS year_month,
+            count(DISTINCT previous_id) AS active_contracts,
+            round(avg(future_installment_count), 2) AS avg_future_installments,
+            round(avg(CASE WHEN dpd >= 30 THEN 1 ELSE 0 END), 4) AS dpd30_rate
+        FROM mart.fact_pos_monthly
+        GROUP BY 1
+        ORDER BY 1
+        """
+    )
+
+    con.execute(
+        """
+        CREATE OR REPLACE VIEW mart.v_credit_card_monthly AS
+        SELECT
+            strftime(snapshot_date, '%Y-%m') AS year_month,
+            count(DISTINCT previous_id) AS active_contracts,
+            round(sum(balance) / NULLIF(sum(credit_limit), 0), 4) AS utilization_rate,
+            round(sum(balance), 2) AS total_balance,
+            round(sum(credit_limit), 2) AS total_limit,
+            round(avg(CASE WHEN dpd >= 30 THEN 1 ELSE 0 END), 4) AS dpd30_rate
+        FROM mart.fact_credit_card_monthly
+        GROUP BY 1
+        ORDER BY 1
+        """
+    )
+
+    con.execute(
+        """
+        CREATE OR REPLACE VIEW mart.v_credit_profile AS
+        SELECT
+            customer_id,
+            count(*) AS bureau_records,
+            round(sum(credit_sum), 2) AS total_credit_sum,
+            round(sum(credit_sum_debt), 2) AS total_debt,
+            max(credit_day_overdue) AS max_overdue_days,
+            sum(CASE WHEN credit_active = 'Active' THEN 1 ELSE 0 END) AS active_records
+        FROM mart.fact_bureau
+        GROUP BY 1
+        """
+    )
+
 
 def _data_quality(con: duckdb.DuckDBPyConnection, counts: dict[str, int]) -> dict:
     checks = []

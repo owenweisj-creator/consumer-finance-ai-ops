@@ -10,9 +10,9 @@
 | raw.application_train | 307,511 | 122 |
 | raw.previous_application | 1,670,214 | 37 |
 | raw.installments_payments | 13,605,401 | 8 |
-| raw.pos_cash_balance | 0 | 8 |
-| raw.credit_card_balance | 0 | 11 |
-| raw.bureau | 0 | 11 |
+| raw.pos_cash_balance | 10,001,358 | 8 |
+| raw.credit_card_balance | 3,840,312 | 23 |
+| raw.bureau | 1,716,428 | 17 |
 | raw.bureau_balance | 0 | 3 |
 
 ## 主键重复
@@ -22,6 +22,7 @@
 | raw.application_train:SK_ID_CURR | 0 |
 | raw.previous_application:SK_ID_PREV | 0 |
 | raw.installments_payments:SK_ID_PREV,NUM_INSTALMENT_NUMBER | 743,407 |
+| raw.bureau:SK_ID_BUREAU | 0 |
 
 ## 关键字段缺失率
 

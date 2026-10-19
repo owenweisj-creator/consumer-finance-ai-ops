@@ -5,9 +5,9 @@
     "application_train": 307511,
     "previous_application": 1670214,
     "installments_payments": 13605401,
-    "pos_cash_balance": 0,
-    "credit_card_balance": 0,
-    "bureau": 0,
+    "pos_cash_balance": 10001358,
+    "credit_card_balance": 3840312,
+    "bureau": 1716428,
     "bureau_balance": 0
   },
   "table_checks": [
@@ -28,18 +28,18 @@
     },
     {
       "table": "raw.pos_cash_balance",
-      "rows": 0,
+      "rows": 10001358,
       "columns": 8
     },
     {
       "table": "raw.credit_card_balance",
-      "rows": 0,
-      "columns": 11
+      "rows": 3840312,
+      "columns": 23
     },
     {
       "table": "raw.bureau",
-      "rows": 0,
-      "columns": 11
+      "rows": 1716428,
+      "columns": 17
     },
     {
       "table": "raw.bureau_balance",
@@ -50,7 +50,8 @@
   "duplicate_keys": {
     "raw.application_train:SK_ID_CURR": 0,
     "raw.previous_application:SK_ID_PREV": 0,
-    "raw.installments_payments:SK_ID_PREV,NUM_INSTALMENT_NUMBER": 743407
+    "raw.installments_payments:SK_ID_PREV,NUM_INSTALMENT_NUMBER": 743407,
+    "raw.bureau:SK_ID_BUREAU": 0
   },
   "null_rates": {
     "raw.application_train:AMT_CREDIT": 0.0,
