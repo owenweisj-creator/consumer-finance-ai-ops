@@ -173,6 +173,9 @@ def special_facts(period: str) -> dict[str, Any]:
         "topic": "审批通过率变化的结构效应与比率效应分解",
         "overview": overview.to_dict(orient="records"),
         "decomposition": decomp.to_dict(orient="records"),
+        "mix_total": round(float(decomp["mix_effect"].sum()), 6),
+        "rate_total": round(float(decomp["rate_effect"].sum()), 6),
+        "total_effect": round(float(decomp["total_effect"].sum()), 6),
     }
 
 
@@ -605,7 +608,9 @@ def build_weekly_report(start: date, end: date) -> dict[str, Path]:
 def build_special_report(period: str) -> dict[str, Path]:
     facts = special_facts(period)
     decomp = pd.DataFrame(facts["decomposition"])
-    total_effect = decomp["total_effect"].sum()
+    total_effect = facts["total_effect"]
+    mix_total = facts["mix_total"]
+    rate_total = facts["rate_total"]
     top_negative = decomp[decomp["total_effect"] < 0].sort_values("total_effect").head(3)
     top_positive = decomp[decomp["total_effect"] > 0].sort_values("total_effect", ascending=False).head(3)
     narrative = generate_narrative(facts)
@@ -630,7 +635,10 @@ def build_special_report(period: str) -> dict[str, Path]:
             f"| {row['channel_type']} | {_pct(row['weight_previous'])} | {_pct(row['weight_current'])} | "
             f"{row['mix_effect']:+.4f} | {row['rate_effect']:+.4f} | {row['total_effect']:+.4f} |"
         )
-    md += ["", f"合计效应：{total_effect:+.4f}。"]
+    md += [
+        "",
+        f"合计效应：结构效应 {mix_total:+.4f}，比率效应 {rate_total:+.4f}，总效应 {total_effect:+.4f}。",
+    ]
     md += ["", "## 重点渠道", ""]
     for _, row in top_negative.iterrows():
         md.append(f"- 负向贡献：{row['channel_type']}，合计 {row['total_effect']:+.4f}，其中结构 {row['mix_effect']:+.4f}、比率 {row['rate_effect']:+.4f}。")
